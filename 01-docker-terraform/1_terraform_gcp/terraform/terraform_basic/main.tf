@@ -9,15 +9,15 @@ terraform {
 
 provider "google" {
 # Credentials only needs to be set if you do not have the GOOGLE_APPLICATION_CREDENTIALS set
-#  credentials = 
-  project = "<Your Project ID>"
+  credentials = "./de-project-411822-448f5bd62d55.json"
+  project = "de-project-411822"
   region  = "us-central1"
 }
 
 
 
-resource "google_storage_bucket" "data-lake-bucket" {
-  name          = "<Your Unique Bucket Name>"
+resource "google_storage_bucket" "tf_google_bucket" {
+  name          = "de-project-411822-terrabucket"
   location      = "US"
 
   # Optional, but recommended settings:
@@ -28,21 +28,21 @@ resource "google_storage_bucket" "data-lake-bucket" {
     enabled     = true
   }
 
-  lifecycle_rule {
-    action {
-      type = "Delete"
-    }
-    condition {
-      age = 30  // days
-    }
-  }
+  # lifecycle_rule {
+  #   action {
+  #     type = "Delete"
+  #   }
+  #   condition {
+  #     age = 30  // days
+  #   }
+  # }
 
   force_destroy = true
 }
 
 
-resource "google_bigquery_dataset" "dataset" {
-  dataset_id = "<The Dataset Name You Want to Use>"
-  project    = "<Your Project ID>"
+resource "google_bigquery_dataset" "terraform_dataset" {
+  dataset_id = "terraform_dataset"
+  project    = "de-project-411822"
   location   = "US"
 }

@@ -2,8 +2,8 @@ services:
   pgdatabase:
     image: postgres:13
     environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=root
+      - POSTGRES_USER=shumengshi
+      - POSTGRES_PASSWORD=Ssm19960319
       - POSTGRES_DB=ny_taxi
     volumes:
       - "./ny_taxi_postgres_data:/var/lib/postgresql/data:rw"
@@ -12,8 +12,14 @@ services:
   pgadmin:
     image: dpage/pgadmin4
     environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
-      - PGADMIN_DEFAULT_PASSWORD=root
+      - PGADMIN_DEFAULT_EMAIL=shumeng.shi9@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=Ssm19960319xs
+    volumes:
+      - "./pgadmin_conn_data:/var/lib/pgadmin:rw" 
     ports:
       - "8080:80"
+
+  load_data:
+    image: taxi_ingest:1.0 
+    command: ["--user=shumengshi","--password=Ssm19960319", "--host=pgdatabase","--port=5432","--db=ny_taxi","--table_name=green_taxi_201909","--url=https://github.com/DataTalksClub/nyc-tlc-data/releases/download/green/green_tripdata_2019-09.csv.gz"]
     
